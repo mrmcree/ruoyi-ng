@@ -75,6 +75,9 @@
         },
         "serve": {
           "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "proxyConfig": "proxy.json"
+          },
           "configurations": {
             "production": {
               "browserTarget": "ng-ruoyi:build:production"

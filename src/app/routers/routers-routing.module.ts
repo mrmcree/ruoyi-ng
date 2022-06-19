@@ -1,5 +1,5 @@
 import { AuthGuard } from "@/app/routers/auth.guard";
-import { NotFoundComponent } from "@/app/routers/exception/404.component";
+
 import { LoginComponent } from "@/app/routers/login/login.component";
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -32,10 +32,8 @@ const routes: Routes = [
     path:'login',
     component:LoginComponent
   },
-  {
-    path:'404',
-    component:NotFoundComponent
-  }
+  { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
+  { path: '**', redirectTo: 'exception/404' }
 
 
 //  { path: '**', redirectTo: 'exception/404' }

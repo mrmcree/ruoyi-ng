@@ -1,5 +1,5 @@
-import { NotFoundComponent } from "@/app/routers/exception/404.component";
-import { NetErrorComponent } from "@/app/routers/exception/500.component";
+
+import { ExceptionComponent } from "@/app/routers/exception/exception.component";
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -8,8 +8,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
 
-  { path: 'notFound', component: NotFoundComponent },
-  { path: 'netError', component: NetErrorComponent },
+  { path: '403', component: ExceptionComponent, data: { type: 403 } },
+  { path: '404', component: ExceptionComponent, data: { type: 404 } },
+  { path: '500', component: ExceptionComponent, data: { type: 500 } },
 
 ];
 

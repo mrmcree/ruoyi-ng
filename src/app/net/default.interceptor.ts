@@ -6,14 +6,13 @@ import { HttpClient,HttpHeaders,HttpParams,  HttpErrorResponse,
   HttpInterceptor,
   HttpRequest,
   HttpResponseBase } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, throwError, catchError, retry,filter, mergeMap, switchMap, take } from 'rxjs';
+
+
 import { environment } from '@/environments/environment';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-@Injectable({
-  providedIn: 'root'
-})
+
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
@@ -42,9 +41,10 @@ const CODE_MESSAGE:{ [key: number]: string }= {
   "501": "未实现。服务器不识别该请求方法，或者服务器没有能力完成请求。",
   "503": "服务不可用。服务器当前不可用(过载或故障)。"
 };
-export class NetService {
+@Injectable()
+export class DefaultInterceptor implements HttpInterceptor {
   private http: any;
-  private restServer : string;
+  private readonly restServer : string;
 
   constructor(private Http: HttpClient,private injector: Injector) {
     this.http = Http;
@@ -68,82 +68,7 @@ export class NetService {
   private goTo(url: string): void {
     setTimeout(() => this.injector.get(Router).navigateByUrl(url));
   }
-  /**
-   * get 方法
-   * @param {string} url
-   * @param {Object} options
-   * @param params
-   * @returns {Observable<{}>}
-   */
-  public get(url: string, options?: Object, params?: any): Observable<{}> {
-    let httpParams = new HttpParams();
-    if (params) {
-      for (const key in params) {
-        if (params[key] === false || params[key]) {
-          httpParams = httpParams.set(key, params[key]);
-        }
-      }
-    }
-    return this.http.get(url, { headers: {...httpOptions,...options}, params: httpParams }).pipe(catchError(this.handleError));
-  }
 
-  /**
-   * post
-   * @param {string} url
-   * @param body
-   * @param {Object} options
-   * @returns {Observable<{}>}
-   */
-  public post(url: string, body: any = null, options?: Object): Observable<{}> {
-    return this.http.post(url, body, { headers: {...httpOptions,...options}}).pipe(catchError(this.handleError));
-  }
-
-  /**
-   * delete
-   * @param {string} url
-   * @param {Object} options
-   * @param params
-   * @returns {Observable<{}>}
-   */
-  public delete(url: string, options?: Object, params?: any): Observable<{}> {
-    let httpParams = new HttpParams();
-    if (params) {
-      for (const key in params) {
-        if (params[key] === false || params[key]) {
-          httpParams = httpParams.set(key, params[key]);
-        }
-      }
-    }
-    return this.http.delete(url, { headers: {...httpOptions,...options}, params: httpParams }).pipe(catchError(this.handleError));
-  }
-  /**
-   * delete
-   * @param {string} url
-   * @param body
-   * @param {Object} options
-   * @returns {Observable<{}>}
-   */
-  public put(url: string, body: any = null, options?: Object): Observable<{}> {
-    return this.http.put(url, body, { headers: {...httpOptions,...options}}).pipe(catchError(this.handleError));
-  }
-  /**
-   * post表单
-   * @param {string} url
-   * @param body
-   * @param {Object} options
-   * @returns {Observable<{}>}
-   */
-  public postForm(url: string, body: any = null, options?: Object): Observable<{}> {
-    let httpParams = new HttpParams();
-    if (body) {
-      for (const key in body) {
-        if (body[key] === false || body[key]) {
-          httpParams = httpParams.set(key, body[key]);
-        }
-      }
-    }
-    return this.http.post(url, httpParams, { headers: {...httpOptions,...options}}).pipe(catchError(this.handleError));
-  }
 
   /**
    * 处理请求失败的错误
@@ -152,7 +77,11 @@ export class NetService {
    * @param next
    */
   private handleError(ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    this.checkStatus(ev);
+    console.log(ev.status)
+    //@ts-ignore
+    if(ev['body'].code===401){
+       this.toLogin()
+    }
     // 业务处理：一些通用操作
     switch (ev.status) {
       case 200:
@@ -184,9 +113,13 @@ export class NetService {
         this.toLogin();
         break;
       case 403:
+//        this.goTo(`/exception/${ev.status}?url=${req.urlWithParams}`);
+        break;
       case 404:
+//        this.goTo(`/exception/${ev.status}?url=${req.urlWithParams}`);
+        break;
       case 500:
-        // this.goTo(`/exception/${ev.status}?url=${req.urlWithParams}`);
+//         this.goTo(`/exception/${ev.status}?url=${req.urlWithParams}`);
         break;
       default:
         if (ev instanceof HttpErrorResponse) {
@@ -226,4 +159,34 @@ export class NetService {
     this.notification.error(`未登录或登录已过期，请重新登录。`, ``);
     this.goTo('/login');
   }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = AuthService.getToken()
+    let url = req.url;
+    if (!url.startsWith('https://') && !url.startsWith('http://')) {
+      const baseUrl  = this.restServer
+      url = baseUrl + (baseUrl.endsWith('/') && url.startsWith('/') ? url.substring(1) : url);
+    }
+    console.log(url)
+// 如果有token，就添加
+      req = req.clone({
+        url,
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+    return next.handle(req).pipe(
+      mergeMap(ev => {
+        // 允许统一对请求错误处理
+        if (ev instanceof HttpResponseBase) {
+          return this.handleError(ev, req, next);
+        }
+        // 若一切都正常，则后续操作
+        return of(ev);
+      }),
+      catchError((err: HttpErrorResponse) => this.handleError(err, req, next))
+    )
+  }
+
 }

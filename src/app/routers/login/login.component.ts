@@ -1,5 +1,8 @@
+import { Http_client } from "@/app/net/http_client";
+import { HttpClient } from "@angular/common/http";
+
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators,FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -7,9 +10,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   validateForm!: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  /**
+   * 验证码
+   * @type {string}
+   */
+  codeImage=''
+  constructor(private fb: FormBuilder,private http: Http_client) { }
 
   ngOnInit(): void {
+
+
     this.validateForm = this.fb.group({
       userName: [null, [Validators.required]],
       password: [null, [Validators.required]],
@@ -17,7 +27,13 @@ export class LoginComponent implements OnInit {
       remember: [true],
     });
   }
+  ngAfterViewInit(){
+    this.http.get('/captchaImage').subscribe ((response:any)=>{
+      this.codeImage="data:image/gif;base64,"+response.img
+    })
+  }
   submitForm(): void {
+
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
     } else {

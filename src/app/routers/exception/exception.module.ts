@@ -1,11 +1,11 @@
 
-import { NotFoundComponent } from "@/app/routers/exception/404.component";
-import { NetErrorComponent } from "@/app/routers/exception/500.component";
+
 import { ExceptionRoutingModule } from "@/app/routers/exception/exception-routing.module";
+import { ExceptionComponent } from "@/app/routers/exception/exception.component";
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-const COMPONENTS = [NotFoundComponent,NetErrorComponent];
+const COMPONENTS = [ExceptionComponent];
 
 
 @NgModule({

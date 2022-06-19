@@ -13,3 +13,6 @@
 .login-form-button {
   width: 100%;
 }
+:host ::ng-deep .ant-input-group-addon{
+  padding: 0 !important;
+}
