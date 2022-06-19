@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-index',
-  templateUrl: './index.component.html',
-//  styleUrls: ['./index.component.less']
+  selector: 'exception-netError',
+  template: `
+  <h1>500</h1>
+  `
 })
-export class IndexComponent implements OnInit {
+export class NetErrorComponent implements OnInit {
 
   constructor() { }
 

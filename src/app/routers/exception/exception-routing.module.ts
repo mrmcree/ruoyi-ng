@@ -1,12 +1,15 @@
+import { NotFoundComponent } from "@/app/routers/exception/404.component";
+import { NetErrorComponent } from "@/app/routers/exception/500.component";
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { IndexComponent } from './index/index.component'
+
 
 
 const routes: Routes = [
 
-  { path: 'index', component: IndexComponent },
+  { path: 'notFound', component: NotFoundComponent },
+  { path: 'netError', component: NetErrorComponent },
 
 ];
 
@@ -14,4 +17,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule {}
+export class ExceptionRoutingModule {}

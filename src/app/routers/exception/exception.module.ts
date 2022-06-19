@@ -1,16 +1,18 @@
-import { DashboardRoutingModule } from "@/app/routers/dashboard/dashboard-routing.module";
-import { IndexComponent } from "@/app/routers/dashboard/index/index.component";
+
+import { NotFoundComponent } from "@/app/routers/exception/404.component";
+import { NetErrorComponent } from "@/app/routers/exception/500.component";
+import { ExceptionRoutingModule } from "@/app/routers/exception/exception-routing.module";
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-const COMPONENTS = [IndexComponent];
+const COMPONENTS = [NotFoundComponent,NetErrorComponent];
 
 
 @NgModule({
   declarations: [...COMPONENTS],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    ExceptionRoutingModule
   ]
 })
-export class DashboardModule { }
+export class ExceptionModule { }
