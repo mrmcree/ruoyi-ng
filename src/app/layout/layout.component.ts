@@ -1,20 +1,24 @@
 import { CommonService } from "@/app/core/common.service";
-import { Component, OnInit } from '@angular/core';
+import { Component , OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.less']
+  selector   : 'app-layout' ,
+  templateUrl: './layout.component.html' ,
+  styleUrls  : ['./layout.component.less']
 })
 export class LayoutComponent implements OnInit {
-  isCollapsed=false
-  routerList:any
-  constructor(private CommonService:CommonService) { }
+  isCollapsed = false
+  routerList : any | undefined
 
-  ngOnInit(): void {
-  this.CommonService.RouterInfo.subscribe(res=>{
-      console.log(res)
-    this.routerList=res
+  constructor(private CommonService : CommonService) {
+  }
+
+  ngOnInit() : void {
+    console.log('layout init')
+    this.CommonService.setRouters()
+    this.CommonService.RouterInfo.subscribe((res:any) => {
+
+      this.routerList = res
     })
   }
 

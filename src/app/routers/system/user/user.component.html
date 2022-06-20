@@ -1,1 +1,22 @@
-<p>user works!</p>
+<div class="app-container">
+  <div class="main-container flex">
+    <div class="left-wrap w-1/3">
+      <nz-input-group [nzSuffix]="suffixIcon">
+        <input type="text" nz-input placeholder="Search" [(ngModel)]="searchValue" />
+      </nz-input-group>
+      <ng-template #suffixIcon>
+        <i nz-icon nzType="search"></i>
+      </ng-template>
+      <nz-tree
+        [nzData]="nodes"
+        [nzSearchValue]="searchValue"
+        (nzClick)="nzEvent($event)"
+        (nzExpandChange)="nzEvent($event)"
+        (nzSearchValueChange)="nzEvent($event)"
+      ></nz-tree>
+    </div>
+    <div class="right-wrap flex-1">
+      right
+    </div>
+  </div>
+</div>

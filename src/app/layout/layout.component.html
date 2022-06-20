@@ -1,8 +1,9 @@
 <nz-layout class="main-container">
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
     <div class="logo"></div>
+<!--     [nzIcon]="menu.meta.icon" -->
     <ul nz-menu  nzMatchRouter nzMatchRouterExact nzTheme="dark" nzMode="inline">
-      <li nz-submenu  [nzTitle]="menu.meta.title" [nzIcon]="menu.meta.icon" *ngFor="let menu of routerList" >
+      <li nz-submenu  [nzTitle]="menu.meta.title"  *ngFor="let menu of routerList" >
         <ul>
           <li nz-menu-item *ngFor="let submenu of menu.children "  >
             <a [routerLink]="menu.path+'/'+submenu.path">

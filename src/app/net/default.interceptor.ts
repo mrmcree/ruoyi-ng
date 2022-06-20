@@ -78,7 +78,7 @@ export class DefaultInterceptor implements HttpInterceptor {
    * @param next
    */
   private handleError(ev : HttpResponseBase , req : HttpRequest<any> , next : HttpHandler) : Observable<any> {
-    console.log(ev.status)
+    console.log("response",ev)
     //@ts-ignore
     if ( ev['body'].code === 401 ) {
       this.toLogin()
@@ -164,6 +164,7 @@ export class DefaultInterceptor implements HttpInterceptor {
   }
 
   intercept(req : HttpRequest<any> , next : HttpHandler) : Observable<HttpEvent<any>> {
+    console.log('req',req)
     const token = AuthService.getToken()
     let url = req.url;
     if ( !url.startsWith('https://') && !url.startsWith('http://') ) {
