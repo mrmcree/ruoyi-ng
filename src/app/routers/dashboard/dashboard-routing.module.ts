@@ -5,8 +5,8 @@ import { IndexComponent } from './index/index.component'
 
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full',redirectTo:'index' },
-  { path: 'index', component: IndexComponent },
+  { path: '', pathMatch: 'full',redirectTo:'index' ,},
+  { path: 'index', component: IndexComponent ,data:{breadcrumb:'index'}},
 
 ];
 

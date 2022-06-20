@@ -1,3 +1,4 @@
+import { CommonService } from "@/app/core/common.service";
 import {Http_client} from "@/app/net/http_client";
 import {AuthService} from "@/app/routers/auth.service";
 import {HttpClient} from "@angular/common/http";
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
   codeImage = ''
   uuid = ''
 
-  constructor(private fb: FormBuilder, private http: Http_client, private router: Router) {
+  constructor(private fb: FormBuilder, private http: Http_client, private router: Router,private CommonService:CommonService) {
   }
 
   ngOnInit(): void {
@@ -48,6 +49,8 @@ export class LoginComponent implements OnInit {
         uuid: this.uuid
       }).subscribe((response: any) => {
         AuthService.setToken(response.token)
+        this.CommonService.setInfo()
+        this.CommonService.setRouters()
         this.router.navigateByUrl('/dashboard/index')
       })
     } else {

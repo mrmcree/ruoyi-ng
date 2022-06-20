@@ -1,6 +1,5 @@
 
 import { DefaultInterceptor } from "@/app/net/default.interceptor";
-import { NoopInterceptor } from "@/app/net/noop-inerceptor";
 import { LoginComponent } from "@/app/routers/login/login.component";
 import { NgModule,APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -21,6 +20,7 @@ import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
+
  const antDesignIcons = AllIcons as {
    [key: string]: IconDefinition;
  };
@@ -30,7 +30,8 @@ registerLocaleData(zh);
 @NgModule({
   declarations: [
     AppComponent ,
-    LoginComponent
+    LoginComponent,
+
 
 
   ],

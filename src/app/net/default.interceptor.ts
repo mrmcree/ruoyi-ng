@@ -41,12 +41,13 @@ const CODE_MESSAGE:{ [key: number]: string }= {
   "501": "未实现。服务器不识别该请求方法，或者服务器没有能力完成请求。",
   "503": "服务不可用。服务器当前不可用(过载或故障)。"
 };
+
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
-  private http: any;
+  private http : any;
   private readonly restServer : string;
 
-  constructor(private Http: HttpClient,private injector: Injector) {
+  constructor(private Http : HttpClient , private injector : Injector) {
     this.http = Http;
     this.restServer = environment.APP_BASE_API
   }
@@ -56,7 +57,7 @@ export class DefaultInterceptor implements HttpInterceptor {
    * @returns {NzMessageService}
    * @private
    */
-  private get NzMessage(): NzMessageService {
+  private get NzMessage() : NzMessageService {
     return this.injector.get(NzMessageService);
   }
 
@@ -65,7 +66,7 @@ export class DefaultInterceptor implements HttpInterceptor {
    * @param {string} url
    * @private
    */
-  private goTo(url: string): void {
+  private goTo(url : string) : void {
     setTimeout(() => this.injector.get(Router).navigateByUrl(url));
   }
 
@@ -76,11 +77,11 @@ export class DefaultInterceptor implements HttpInterceptor {
    * @param req
    * @param next
    */
-  private handleError(ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandler): Observable<any> {
+  private handleError(ev : HttpResponseBase , req : HttpRequest<any> , next : HttpHandler) : Observable<any> {
     console.log(ev.status)
     //@ts-ignore
-    if(ev['body'].code===401){
-       this.toLogin()
+    if ( ev['body'].code === 401 ) {
+      this.toLogin()
     }
     // 业务处理：一些通用操作
     switch (ev.status) {
@@ -123,17 +124,18 @@ export class DefaultInterceptor implements HttpInterceptor {
         this.goTo(`/exception/${ev.status}?url=${req.urlWithParams}`);
         break;
       default:
-        if (ev instanceof HttpErrorResponse) {
+        if ( ev instanceof HttpErrorResponse ) {
           console.warn(
-            '未可知错误，大部分是由于后端不支持跨域CORS或无效配置引起，请参考 https://ng-alain.com/docs/server 解决跨域问题',
+            '未可知错误，大部分是由于后端不支持跨域CORS或无效配置引起，请参考 https://ng-alain.com/docs/server 解决跨域问题' ,
             ev
           );
         }
         break;
     }
-    if (ev instanceof HttpErrorResponse) {
+    if ( ev instanceof HttpErrorResponse ) {
       return throwError(ev);
-    } else {
+    }
+    else {
       return of(ev);
     }
   }
@@ -143,8 +145,8 @@ export class DefaultInterceptor implements HttpInterceptor {
    * @param {HttpResponseBase} ev
    * @private
    */
-  private checkStatus(ev: HttpResponseBase): void {
-    if ((ev.status >= 200 && ev.status < 300) || ev.status === 401) {
+  private checkStatus(ev : HttpResponseBase) : void {
+    if ( (ev.status >= 200 && ev.status < 300) || ev.status === 401 ) {
       return;
     }
 
@@ -156,38 +158,38 @@ export class DefaultInterceptor implements HttpInterceptor {
    * 登录
    * @private
    */
-  private toLogin(): void {
+  private toLogin() : void {
     this.NzMessage.error(`未登录或登录已过期，请重新登录。`);
     this.goTo('/login');
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req : HttpRequest<any> , next : HttpHandler) : Observable<HttpEvent<any>> {
     const token = AuthService.getToken()
     let url = req.url;
-    if (!url.startsWith('https://') && !url.startsWith('http://')) {
-      const baseUrl  = this.restServer
+    if ( !url.startsWith('https://') && !url.startsWith('http://') ) {
+      const baseUrl = this.restServer
       url = baseUrl + (baseUrl.endsWith('/') && url.startsWith('/') ? url.substring(1) : url);
     }
     console.log(url)
 // 如果有token，就添加
-      req = req.clone({
-        url,
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+    req = req.clone({
+      url ,
+      setHeaders: {
+        Authorization: `Bearer ${token}`
+      }
+    });
 
     return next.handle(req).pipe(
       mergeMap(ev => {
         // 允许统一对请求错误处理
-        if (ev instanceof HttpResponseBase) {
-          return this.handleError(ev, req, next);
+        if ( ev instanceof HttpResponseBase ) {
+          return this.handleError(ev , req , next);
         }
         // 若一切都正常，则后续操作
         return of(ev);
-      }),
-      catchError((err: HttpErrorResponse) => this.handleError(err, req, next))
+      }) ,
+      catchError((err : HttpErrorResponse) => this.handleError(err , req , next))
     )
   }
-
 }
+

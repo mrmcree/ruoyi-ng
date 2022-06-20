@@ -25,9 +25,13 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-        data: { preload: true }
+        data: { preload: true ,breadcrumb:'dashboard'}
       },
-
+      {
+        path: 'system',
+        loadChildren: () => import('./system/system.module').then(m => m.SystemModule),
+        data: { preload: true ,breadcrumb:'system'}
+      },
     ],
 
   },
