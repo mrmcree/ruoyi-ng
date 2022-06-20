@@ -25,10 +25,7 @@
 
         </nz-input-group>
         <ng-template #img >
-
-             <img [src]="codeImage" alt="" style="width: 83px">
-
-
+             <img [src]="codeImage" alt="" style="width: 83px" (click)="refreshCode()">
         </ng-template>
 
 

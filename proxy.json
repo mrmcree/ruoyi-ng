@@ -1,6 +1,6 @@
 {
   "/dev-api": {
-    "target": "http://localhost:8080",
+    "target": "http://192.168.22.144:8283",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,

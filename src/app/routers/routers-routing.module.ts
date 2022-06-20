@@ -21,7 +21,7 @@ const routes: Routes = [
     },
 
     children: [
-      { path: '',  pathMatch: 'full',redirectTo:'/login' },
+      { path: '',  pathMatch: 'full',redirectTo:'/dashboard' },
       {
         path: 'dashboard',
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),

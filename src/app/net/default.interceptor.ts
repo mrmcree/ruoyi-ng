@@ -11,7 +11,7 @@ import { BehaviorSubject, Observable, of, throwError, catchError, retry,filter, 
 
 import { environment } from '@/environments/environment';
 import { Router } from '@angular/router';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -53,11 +53,11 @@ export class DefaultInterceptor implements HttpInterceptor {
 
   /**
    * 提示
-   * @returns {NzNotificationService}
+   * @returns {NzMessageService}
    * @private
    */
-  private get notification(): NzNotificationService {
-    return this.injector.get(NzNotificationService);
+  private get NzMessage(): NzMessageService {
+    return this.injector.get(NzMessageService);
   }
 
   /**
@@ -111,6 +111,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         break;
       case 401:
         this.toLogin();
+        AuthService.removeToken()
         break;
       case 403:
 //        this.goTo(`/exception/${ev.status}?url=${req.urlWithParams}`);
@@ -119,7 +120,7 @@ export class DefaultInterceptor implements HttpInterceptor {
 //        this.goTo(`/exception/${ev.status}?url=${req.urlWithParams}`);
         break;
       case 500:
-//         this.goTo(`/exception/${ev.status}?url=${req.urlWithParams}`);
+        this.goTo(`/exception/${ev.status}?url=${req.urlWithParams}`);
         break;
       default:
         if (ev instanceof HttpErrorResponse) {
@@ -148,7 +149,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     }
 
     const errorText = CODE_MESSAGE[ev.status] || ev.statusText;
-    this.notification.error(`请求错误 ${ev.status}: ${ev.url}`, errorText);
+    this.NzMessage.error(`请求错误 ${ev.status}: ${ev.url}`);
   }
 
   /**
@@ -156,7 +157,7 @@ export class DefaultInterceptor implements HttpInterceptor {
    * @private
    */
   private toLogin(): void {
-    this.notification.error(`未登录或登录已过期，请重新登录。`, ``);
+    this.NzMessage.error(`未登录或登录已过期，请重新登录。`);
     this.goTo('/login');
   }
 
