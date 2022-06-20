@@ -2,7 +2,7 @@
 import { DefaultInterceptor } from "@/app/net/default.interceptor";
 import { NoopInterceptor } from "@/app/net/noop-inerceptor";
 import { LoginComponent } from "@/app/routers/login/login.component";
-import { NgModule } from '@angular/core';
+import { NgModule,APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from "src/app/layout/layout.module";
 
@@ -38,7 +38,7 @@ registerLocaleData(zh);
     HttpClientModule,
     NzIconModule.forRoot(icons) ,
     BrowserModule ,
-    RouteRoutingModule ,
+    RouteRoutingModule,
     FormsModule ,
     NzNotificationModule,
     BrowserAnimationsModule ,
@@ -46,7 +46,17 @@ registerLocaleData(zh);
     LayoutModule ,
     ReactiveFormsModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: zh_CN }, {provide: HTTP_INTERCEPTORS,useClass: DefaultInterceptor, multi: true }],
+  providers: [
+    { provide: NZ_I18N, useValue: zh_CN },
+    {provide: HTTP_INTERCEPTORS,useClass: DefaultInterceptor, multi: true }
+    ,
+//    {
+//      provide: APP_INITIALIZER,
+//
+//      useClass: RouteRoutingModule,
+//      multi: true
+//    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

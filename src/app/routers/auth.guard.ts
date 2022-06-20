@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
+import { AuthService } from "@/app/routers/auth.service";
+import { Injectable , Injector } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanDeactivate, Router,CanLoad, Route, RouterStateSnapshot, UrlSegment, UrlTree,ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+
 //class UserToken {}
 //class Permissions {
 //  canActivate(user: UserToken, id: string): boolean {
@@ -11,7 +13,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanLoad {
-  constructor() {
+  constructor(private router:Router) {
   }
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -23,14 +25,26 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
 //    // 2. 通过自己实现的权限服务判断返回相应的结果
 //    const canActivate = (permissionList as string[]).includes('admin');
 //    return canActivate;\
-
     return  true
+//    if(AuthService.getToken() ==null){
+//      this.router.navigateByUrl('/login')
+//      return  false
+//    }else {
+//      return  true
+//    }
 //    return this.permissions.canActivate(this.currentUser, '1');
   }
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
+//    return  true
+    if(AuthService.getToken() ==null){
+      this.router.navigateByUrl('/login')
+      return  false
+    }else {
+      return  true
+    }
+
   }
   canDeactivate(
     component: unknown,

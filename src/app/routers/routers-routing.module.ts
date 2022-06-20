@@ -14,6 +14,7 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     canActivate:[AuthGuard],
+    canActivateChild:[AuthGuard],
     data: {
       // 路由数据根据自己业务配置
       permission: ['admin']
@@ -26,7 +27,9 @@ const routes: Routes = [
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
         data: { preload: true }
       },
-    ]
+
+    ],
+
   },
   {
     path:'login',
