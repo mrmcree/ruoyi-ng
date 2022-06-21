@@ -2,8 +2,9 @@ import { AuthGuard } from "@/app/routers/auth.guard";
 
 import { LoginComponent } from "@/app/routers/login/login.component";
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
 
+
+import { RouteReuseStrategy , RouterModule ,DetachedRouteHandle, Routes,ActivatedRouteSnapshot } from '@angular/router';
 
 // layout
 import { LayoutComponent } from '../layout/layout.component';
@@ -59,4 +60,7 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class RouteRoutingModule {}
+export class RouteRoutingModule  {
+
+
+}

@@ -7,7 +7,7 @@ import { Observable , Subject } from 'rxjs'
   providedIn: 'root'
 })
 export class CommonService {
-  private  userInfo : any
+  public userInfo : any
   private  role : any
   private  permissions : any
   private  routers:any
@@ -40,4 +40,5 @@ export class CommonService {
   get RouterInfo():Observable<any>{
     return this.sub.asObservable()
   }
+
 }

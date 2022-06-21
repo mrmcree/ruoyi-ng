@@ -36,9 +36,9 @@ registerLocaleData(zh);
 
   ],
   imports: [
+    BrowserModule ,
     HttpClientModule,
     NzIconModule.forRoot(icons) ,
-    BrowserModule ,
     RouteRoutingModule,
     FormsModule ,
     NzNotificationModule,

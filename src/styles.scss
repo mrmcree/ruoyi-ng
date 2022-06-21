@@ -12,10 +12,16 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-//.app-container{
-//  padding: 10px;
-//}
-//.main-container{
-//  padding: 5px;
-//  background: #fff;
-//}
+.app-container{
+  padding: 10px;
+}
+.main-container{
+  padding: 5px;
+
+}
+.card{
+  border: 1px solid #d9d9d9;
+  padding: 10px;
+  background: #fff;
+  border-radius: 5px;
+}

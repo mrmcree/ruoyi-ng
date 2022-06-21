@@ -3,7 +3,13 @@ import { Injectable,Injector  } from '@angular/core';
 import { HttpClient,HttpParams,
   } from '@angular/common/http';
 import {  Observable } from 'rxjs';
-
+export interface response{
+  code: number,
+  msg:string,
+  rows:any[],
+  data:object | [],
+  total:number
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -25,7 +31,7 @@ export class Http_client {
    * @param params
    * @returns {Observable<{}>}
    */
-  public get(url: string, options?: Object, params?: any): Observable<{}> {
+  public get(url: string,  params?: any,options?: Object,): Observable<{}> {
     let httpParams = new HttpParams();
     if (params) {
       for (const key in params) {
@@ -55,7 +61,7 @@ export class Http_client {
    * @param params
    * @returns {Observable<{}>}
    */
-  public delete(url: string, options?: Object, params?: any): Observable<{}> {
+  public delete(url: string, params?: any,options?: Object, ): Observable<{}> {
     let httpParams = new HttpParams();
     if (params) {
       for (const key in params) {
