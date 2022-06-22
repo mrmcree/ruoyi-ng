@@ -7,9 +7,6 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 @Component({
   selector : 'app-userDialog' ,
   template : `
-    <button nz-button nzType="primary" (click)="showModal()">
-      <span>Show Modal</span>
-    </button>
     <nz-modal
       [(nzVisible)]="isVisible"
       [nzTitle]="ModelTitle"
