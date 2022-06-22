@@ -1,12 +1,28 @@
 import { AuthService } from "@/app/routers/auth.service";
 import { Injectable,Injector  } from '@angular/core';
+
+
 import { HttpClient,HttpHeaders,HttpParams,  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
   HttpResponseBase } from '@angular/common/http';
-import { BehaviorSubject, Observable, of, throwError, catchError, retry,filter, mergeMap, switchMap, take } from 'rxjs';
+import {
+  ErrorObserver,
+  timeout,
+  BehaviorSubject ,
+  Observable ,
+  of ,
+  throwError ,
+  catchError ,
+  retry ,
+  filter ,
+  mergeMap ,
+  switchMap ,
+  take ,
+  subscribeOn
+} from 'rxjs';
 
 
 import { environment } from '@/environments/environment';
@@ -46,7 +62,7 @@ const CODE_MESSAGE:{ [key: number]: string }= {
 export class DefaultInterceptor implements HttpInterceptor {
   private http : any;
   private readonly restServer : string;
-
+  private defaultTimeout=10000
   constructor(private Http : HttpClient , private injector : Injector) {
     this.http = Http;
     this.restServer = environment.APP_BASE_API
@@ -80,9 +96,7 @@ export class DefaultInterceptor implements HttpInterceptor {
   private handleError(ev : HttpResponseBase , req : HttpRequest<any> , next : HttpHandler) : Observable<any> {
     console.log("response",ev)
     //@ts-ignore
-    if ( ev['body'].code === 401 ) {
-      this.toLogin()
-    }
+    this.checkStatus(ev)
     // 业务处理：一些通用操作
     switch (ev.status) {
       case 200:
@@ -132,10 +146,13 @@ export class DefaultInterceptor implements HttpInterceptor {
         }
         break;
     }
+  //@ts-ignore
+//    if(ev.body.code===500){
+//      subscribeOn(ev)
+//    }
     if ( ev instanceof HttpErrorResponse ) {
       return throwError(ev);
-    }
-    else {
+    } else {
       return of(ev);
     }
   }
@@ -149,6 +166,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     if ( (ev.status >= 200 && ev.status < 300) || ev.status === 401 ) {
       return;
     }
+
 
     const errorText = CODE_MESSAGE[ev.status] || ev.statusText;
     this.NzMessage.error(`请求错误 ${ev.status}: ${ev.url}`);
@@ -181,13 +199,17 @@ export class DefaultInterceptor implements HttpInterceptor {
     });
 
     return next.handle(req).pipe(
-      mergeMap(ev => {
+      timeout(this.defaultTimeout),
+      mergeMap((ev:any) => {
         // 允许统一对请求错误处理
         if ( ev instanceof HttpResponseBase ) {
           return this.handleError(ev , req , next);
+//          return ErrorObserver.create(ev)
         }
+
         // 若一切都正常，则后续操作
         return of(ev);
+
       }) ,
       catchError((err : HttpErrorResponse) => this.handleError(err , req , next))
     )

@@ -12,6 +12,7 @@ import { NzDividerModule } from "ng-zorro-antd/divider";
 import { NzFormModule } from "ng-zorro-antd/form";
 import { NzIconModule } from "ng-zorro-antd/icon";
 import { NzInputModule } from "ng-zorro-antd/input";
+import { NzPopconfirmModule } from "ng-zorro-antd/popconfirm";
 import { NzSelectModule } from "ng-zorro-antd/select";
 import { NzTableModule } from "ng-zorro-antd/table";
 
@@ -44,6 +45,7 @@ const COMPONENTS = [UserComponent];
     NzDatePickerModule ,
     NzTableModule ,
     NzDividerModule ,
+    NzPopconfirmModule ,
 
   ]
 })

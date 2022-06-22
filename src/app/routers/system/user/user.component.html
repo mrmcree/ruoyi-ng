@@ -119,7 +119,12 @@
           <td nzRight="true">
             <a href="#">编辑</a>
             <nz-divider nzType="vertical"></nz-divider>
-            <a href="#">删除</a>
+            <a href="#"
+               nz-popconfirm
+               nzPopconfirmTitle="确定删除吗"
+               (nzOnConfirm)="handleDelete(data)"
+               nzPopconfirmPlacement="topLeft"
+            >删除</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a href="#">重置密码</a>
           </td>
