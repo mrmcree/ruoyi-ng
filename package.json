@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --extra-webpack-config webpack.config.js",
+    "start": "ng serve --hmr --extra-webpack-config webpack.config.js",
     "build": "ng build --extra-webpack-config webpack.config.js",
     "build:prod": "cross-env NODE_ENV=production ng build --extra-webpack-config webpack.config.js --prod",
     "watch": "ng build --watch --configuration development",

@@ -19,6 +19,16 @@ import { IconDefinition } from '@ant-design/icons-angular';
  import * as AllIcons from '@ant-design/icons-angular/icons';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { CacheComponent } from './routers/monitor/cache/cache.component';
+import { DruidComponent } from './routers/monitor/druid/druid.component';
+import { JobComponent } from './routers/monitor/job/job.component';
+import { LogininforComponent } from './routers/monitor/logininfor/logininfor.component';
+import { OnlineComponent } from './routers/monitor/online/online.component';
+import { OnpenlogComponent } from './routers/monitor/onpenlog/onpenlog.component';
+import { ServerComponent } from './routers/monitor/server/server.component';
+import { BuildComponent } from './routers/tool/build/build.component';
+import { GenComponent } from './routers/tool/gen/gen.component';
+import { SwaggerComponent } from './routers/tool/swagger/swagger.component';
 
 
  const antDesignIcons = AllIcons as {
@@ -31,9 +41,6 @@ registerLocaleData(zh);
   declarations: [
     AppComponent ,
     LoginComponent,
-
-
-
   ],
   imports: [
     BrowserModule ,

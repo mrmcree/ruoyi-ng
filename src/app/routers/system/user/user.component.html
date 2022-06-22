@@ -21,42 +21,44 @@
 
     </div>
     <div class="right-wrap flex-1 ml-5 card ">
-      <form nz-form [formGroup]="queryParams" [nzLayout]="'inline'" (ngSubmit)="handleQuery()" class="ant-advanced-search-form ">
+      <form nz-form [formGroup]="queryParams" [nzLayout]="'inline'" (ngSubmit)="handleQuery()"
+            class="ant-advanced-search-form ">
         <div nz-row [nzGutter]="24" class="form-wrap w-full">
-          <div nz-col [nzMd]="8" [nzSm]="12" [nzXs]="24">
+          <div nz-col >
             <nz-form-item>
               <nz-form-label nzFor="userName">用户名</nz-form-label>
-              <nz-form-control >
-                <input nz-input formControlName="userName" id="userName"  placeholder="请输入"/>
+              <nz-form-control>
+                <input nz-input formControlName="userName" id="userName" placeholder="请输入" />
               </nz-form-control>
             </nz-form-item>
           </div>
-          <div nz-col [nzMd]="8" [nzSm]="12" [nzXs]="24">
+          <div nz-col >
             <nz-form-item>
               <nz-form-label nzFor="userName">手机号码</nz-form-label>
-              <nz-form-control  >
+              <nz-form-control>
                 <input nz-input formControlName="phonenumber" id="phonenumber" />
               </nz-form-control>
             </nz-form-item>
           </div>
 
-          <div nz-col [nzMd]="8" [nzSm]="12" [nzXs]="24">
+          <div nz-col class="w-64">
             <nz-form-item class="w-full">
               <nz-form-label nzFor="status">状态</nz-form-label>
-              <nz-form-control  >
-                <nz-select   formControlName="status" id="status">
-                  <nz-option [nzValue]="item.dictValue" [nzLabel]="item.dictLabel" *ngFor="let item in sys_normal_disable"></nz-option>
+              <nz-form-control>
+                <nz-select formControlName="status" id="status">
+                  <nz-option [nzValue]="item.dictValue" [nzLabel]="item.dictLabel"
+                             *ngFor="let item of sys_normal_disable;let i =index"></nz-option>
                 </nz-select>
               </nz-form-control>
 
             </nz-form-item>
           </div>
-          <div nz-col [nzMd]="8" [nzSm]="12" [nzXs]="24">
+          <div nz-col >
             <nz-form-item>
               <nz-form-label nzFor="dateRange">创建时间</nz-form-label>
-              <nz-form-control  >
-<!--                 <input nz-input formControlName="dateRange" id="dateRange" /> -->
-                <nz-range-picker formControlName="dateRange" id="dateRange" ></nz-range-picker>
+              <nz-form-control>
+                <!--                 <input nz-input formControlName="dateRange" id="dateRange" /> -->
+                <nz-range-picker formControlName="dateRange" id="dateRange"></nz-range-picker>
 
               </nz-form-control>
             </nz-form-item>
@@ -64,34 +66,56 @@
         </div>
         <div nz-row class="flex">
           <nz-form-item>
-            <nz-form-control >
-              <button nz-button nzType="primary" class="mr-3">
-                <i nz-icon nzType="search"></i>搜索</button>
+            <nz-form-control>
+              <button nz-button nzType="primary" class="mr-3" (click)="handleQuery()">
+                <i nz-icon nzType="search"></i>搜索
+              </button>
               <button nz-button (click)="resetForm()">
-                <i nz-icon nzType="reload" nzTheme="outline"></i>重置</button>
+                <i nz-icon nzType="reload" nzTheme="outline"></i>重置
+              </button>
             </nz-form-control>
           </nz-form-item>
         </div>
-    </form>
-      <div class="opea-btns">
-        <button nz-button nzType="primary" nzDanger>新增</button>
-        <button nz-button  >修改</button>
-        <button nz-button nzDanger>删除</button>
-        <button nz-button  >导入</button>
-        <button nz-button >导出</button>
+      </form>
+      <div class="operate-btns">
+        <button nz-button nzType="primary"  (click)="handleAdd()">
+          <i nz-icon nzType="plus" nzTheme="outline" ></i>
+          新增</button>
+        <button nz-button nzType="primary" (click)="handleEdit()">
+          <i nz-icon nzType="edit" nzTheme="outline"></i>
+          修改</button>
+        <button nz-button nzDanger (click)="handleDelete()">
+          <i nz-icon nzType="delete" nzTheme="outline"></i>
+          删除</button>
+        <button nz-button (click)="handleImport">
+          <i nz-icon nzType="arrow-down" nzTheme="outline"></i>
+          导入</button>
+        <button nz-button  (click)="handleExport">
+          <i nz-icon nzType="arrow-up" nzTheme="outline"></i>
+          导出</button>
       </div>
       <nz-table
         class="mt-5"
         nzBordered="true"
-        #rowSelectionTable
-        nzShowPagination
         nzShowSizeChanger
-        [nzData]="listOfData"
-        (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+        #rowSelectionTable
+        [nzPageSize]="searchParams.pageSize"
+        [nzPageIndex]="searchParams.pageIndex"
+        [nzShowPagination]="true"
+        [nzLoading]="loading"
+        [nzData]="userList"
+        (nzQueryParams)="getList($event)"
       >
         <thead>
+
         <tr>
-          <th [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+          <th
+            [nzSelections]="listOfSelection"
+            [(nzChecked)]="checked"
+            [nzIndeterminate]="indeterminate"
+            (nzCheckedChange)="onAllChecked($event)"
+          ></th>
+
           <th>用户编号</th>
           <th>用户名称</th>
           <th>用户昵称</th>
@@ -105,9 +129,8 @@
         <tbody>
         <tr *ngFor="let data of rowSelectionTable.data">
           <td
-            [nzChecked]="setOfCheckedId.has(data.id)"
-
-            (nzCheckedChange)="onItemChecked(data.id, $event)"
+            [nzChecked]="setOfCheckedId.has(data.userId)"
+            (nzCheckedChange)="onItemChecked(data.userId, $event)"
           ></td>
           <td>{{ data.userId }}</td>
           <td>{{ data.userName }}</td>
@@ -116,21 +139,26 @@
           <td>{{ data.phonenumber }}</td>
           <td>{{ data.status }}</td>
           <td>{{ data.createTime }}</td>
-          <td nzRight="true">
+          <td nzRight="true" *ngIf="data.userId!==1">
             <a href="#">编辑</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a href="#"
                nz-popconfirm
-               nzPopconfirmTitle="确定删除吗"
+               [nzIcon]="iconTpl"
+               nzPopconfirmTitle="确定删除此条数据吗"
                (nzOnConfirm)="handleDelete(data)"
                nzPopconfirmPlacement="topLeft"
             >删除</a>
+            <ng-template #iconTpl>
+              <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+            </ng-template>
             <nz-divider nzType="vertical"></nz-divider>
             <a href="#">重置密码</a>
           </td>
         </tr>
         </tbody>
       </nz-table>
+    </div>
+    <app-userDialog  #UserDialog (SaveSuccess)="getList()"></app-userDialog>
   </div>
-</div>
 </div>

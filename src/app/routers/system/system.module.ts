@@ -1,6 +1,8 @@
 
 import { SystemRoutingModule } from "@/app/routers/system/system-routing.module";
 import { UserComponent } from "@/app/routers/system/user/user.component";
+import { UserDialogComponent } from "@/app/routers/system/user/user.dialog";
+import { SharedModule } from "@/app/shared/shared.module";
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule , ReactiveFormsModule } from "@angular/forms";
@@ -21,12 +23,21 @@ import { NzTreeViewModule } from "ng-zorro-antd/tree-view";
 import { RoleComponent } from './role/role.component';
 import { DataComponent } from './dict/data/data.component';
 import { TypeComponent } from './dict/type/type.component';
+import { ConfigComponent } from './config/config.component';
+
+import { MenuComponent } from './menu/menu.component';
+import { NoticeComponent } from './notice/notice.component';
+import { PostComponent } from './post/post.component';
 
 const COMPONENTS = [UserComponent];
 
 
 @NgModule({
-  declarations: [...COMPONENTS, RoleComponent, DataComponent, TypeComponent],
+  declarations: [
+    ...COMPONENTS , RoleComponent , DataComponent , TypeComponent , ConfigComponent , MenuComponent , NoticeComponent ,
+    PostComponent ,
+    UserDialogComponent
+  ],
   imports: [
 
     CommonModule ,
@@ -46,6 +57,7 @@ const COMPONENTS = [UserComponent];
     NzTableModule ,
     NzDividerModule ,
     NzPopconfirmModule ,
+    SharedModule ,
 
   ]
 })

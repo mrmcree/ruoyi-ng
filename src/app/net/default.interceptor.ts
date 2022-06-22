@@ -1,3 +1,4 @@
+import { CommonService } from "@/app/core/common.service";
 import { AuthService } from "@/app/routers/auth.service";
 import { Injectable,Injector  } from '@angular/core';
 
@@ -94,9 +95,18 @@ export class DefaultInterceptor implements HttpInterceptor {
    * @param next
    */
   private handleError(ev : HttpResponseBase , req : HttpRequest<any> , next : HttpHandler) : Observable<any> {
-    console.log("response",ev)
-    //@ts-ignore
+//    console.log("response",ev)
+
     this.checkStatus(ev)
+    //@ts-ignore
+    if(ev.body.code===401){
+
+      this.toLogin()
+      //@ts-ignore
+    }else if(ev.body.code!==200){
+      //@ts-ignore
+      this.NzMessage.error(ev.body.msg);
+    }
     // 业务处理：一些通用操作
     switch (ev.status) {
       case 200:
@@ -182,14 +192,14 @@ export class DefaultInterceptor implements HttpInterceptor {
   }
 
   intercept(req : HttpRequest<any> , next : HttpHandler) : Observable<HttpEvent<any>> {
-    console.log('req',req)
+//    console.log('req',req)
     const token = AuthService.getToken()
     let url = req.url;
     if ( !url.startsWith('https://') && !url.startsWith('http://') ) {
       const baseUrl = this.restServer
       url = baseUrl + (baseUrl.endsWith('/') && url.startsWith('/') ? url.substring(1) : url);
     }
-    console.log(url)
+//    console.log(url)
 // 如果有token，就添加
     req = req.clone({
       url ,
