@@ -106,6 +106,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     }else if(ev.body.code!==200){
       //@ts-ignore
       this.NzMessage.error(ev.body.msg);
+      return  throwError('error')
     }
     // 业务处理：一些通用操作
     switch (ev.status) {
@@ -177,7 +178,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       return;
     }
 
-
+    if(!ev.status) return;
     const errorText = CODE_MESSAGE[ev.status] || ev.statusText;
     this.NzMessage.error(`请求错误 ${ev.status}: ${ev.url}`);
   }

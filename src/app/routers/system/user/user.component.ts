@@ -241,7 +241,7 @@ export class UserComponent implements AfterViewInit , OnInit {
    */
   handleDelete(data ?: any) {
 //    console.log(data)
-    this.userService.delUser(data.userId).subscribe((res => {
+    this.userService.delUser(data.id).subscribe((res => {
       this.message.success('删除成功')
       this.getList()
     }))

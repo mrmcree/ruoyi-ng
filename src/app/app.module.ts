@@ -1,5 +1,6 @@
 
 import { DefaultInterceptor } from "@/app/net/default.interceptor";
+import { LoggingInterceptor } from "@/app/net/logging.interceptor";
 import { LoginComponent } from "@/app/routers/login/login.component";
 import { NgModule,APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -58,12 +59,8 @@ registerLocaleData(zh);
     { provide: NZ_I18N, useValue: zh_CN },
     {provide: HTTP_INTERCEPTORS,useClass: DefaultInterceptor, multi: true }
     ,
-//    {
-//      provide: APP_INITIALIZER,
-//
-//      useClass: RouteRoutingModule,
-//      multi: true
-//    }
+    { provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true }
+
   ],
   bootstrap: [AppComponent]
 })
