@@ -32,7 +32,7 @@ export class Http_client {
    * @param params
    * @returns {Observable<{}>}
    */
-  public get(url: string,  params?: any,options?: Object,): Observable<{}> {
+  public get(url: string,  params?: any,options?: Object,): Promise<{}> {
 
     let httpParams = new HttpParams();
     if (params) {
@@ -42,7 +42,7 @@ export class Http_client {
         }
       }
     }
-    return this.http.get(url, { headers:options, params: httpParams });
+    return this.http.get(url, { headers:options, params: httpParams }).toPromise()
   }
 
   /**
@@ -53,7 +53,7 @@ export class Http_client {
    * @returns {Observable<{}>}
    */
   public post(url: string, body: any = null, options?: Object): Observable<{}> {
-    return this.http.post(url, body, { headers:options});
+    return this.http.post(url, body, { headers:options}).toPromise()
   }
 
   /**
@@ -72,7 +72,7 @@ export class Http_client {
         }
       }
     }
-    return this.http.delete(url, { headers:options, params: httpParams });
+    return this.http.delete(url, { headers:options, params: httpParams }).toPromise()
   }
   /**
    * delete
@@ -82,7 +82,7 @@ export class Http_client {
    * @returns {Observable<{}>}
    */
   public put(url: string, body: any = null, options?: Object): Observable<{}> {
-    return this.http.put(url, body, { headers:options})
+    return this.http.put(url, body, { headers:options}).toPromise()
   }
   /**
    * post表单
@@ -100,7 +100,7 @@ export class Http_client {
         }
       }
     }
-    return this.http.post(url, httpParams, { headers:options})
+    return this.http.post(url, httpParams, { headers:options}).toPromise()
   }
 
 

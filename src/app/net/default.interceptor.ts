@@ -95,7 +95,7 @@ export class DefaultInterceptor implements HttpInterceptor {
    * @param next
    */
   private handleError(ev : HttpResponseBase , req : HttpRequest<any> , next : HttpHandler) : Observable<any> {
-//    console.log("response",ev)
+
 
     this.checkStatus(ev)
     //@ts-ignore

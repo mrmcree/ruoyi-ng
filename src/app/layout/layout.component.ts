@@ -13,13 +13,11 @@ export class LayoutComponent implements OnInit {
   constructor(private CommonService : CommonService) {
   }
 
-  ngOnInit() : void {
+  async ngOnInit()  {
     console.log('layout init')
-    this.CommonService.setRouters()
-    this.CommonService.RouterInfo.subscribe((res:any) => {
 
-      this.routerList = res
-    })
+    const res:any = await this.CommonService.getRouters()
+    this.routerList=res.data
   }
 
 }

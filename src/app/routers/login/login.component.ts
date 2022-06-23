@@ -40,34 +40,32 @@ export class LoginComponent implements OnInit {
   }
 
   /*提交*/
-  submitForm(): void {
+  async submitForm()  {
 
-    if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
-      this.http.post('/login', {
-        ...this.validateForm.value,
+    if ( this.validateForm.valid ) {
+
+      const response : any = await this.http.post('/login' , {
+        ...this.validateForm.value ,
         uuid: this.uuid
-      }).subscribe((response: any) => {
-        AuthService.setToken(response.token)
-        this.CommonService.setInfo()
-        this.CommonService.setRouters()
-        this.router.navigateByUrl('/dashboard/index')
       })
-    } else {
+      AuthService.setToken(response.token)
+      await this.CommonService.setInfo()
+      await this.router.navigateByUrl('/dashboard/index')
+    }
+    else {
       Object.values(this.validateForm.controls).forEach(control => {
-        if (control.invalid) {
+        if ( control.invalid ) {
           control.markAsDirty();
-          control.updateValueAndValidity({onlySelf: true});
+          control.updateValueAndValidity({ onlySelf: true });
         }
       });
     }
   }
 
   /*刷新验证码*/
-  refreshCode() {
-    this.http.get('/captchaImage').subscribe((response: any) => {
-      this.codeImage = "data:image/gif;base64," + response.img
-      this.uuid = response.uuid
-    })
+  async refreshCode() {
+    const response:any = await this.http.get('/captchaImage')
+    this.codeImage = "data:image/gif;base64," + response.img
+    this.uuid = response.uuid
   }
 }

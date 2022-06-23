@@ -115,20 +115,18 @@ export class UserComponent implements AfterViewInit , OnInit {
    */
   detailDialogVisible = false
 
-  ngOnInit() {
+  async ngOnInit() {
     this.queryParams = this.fb.group({
       userName   : [null] ,
       phonenumber: [null] ,
       status     : [null] ,
       dateRange  : [null , null] ,
     });
-    this.getTreeSelect()
-    this.DictService.getDict('sys_normal_disable').subscribe((res : any) => {
-      this.sys_normal_disable = res.data
-    })
-    this.DictService.getDict('sys_user_sex').subscribe((res : any) => {
-      this.sys_user_sex = res.data
-    })
+    await this.getTreeSelect()
+    const res : any = await this.DictService.getDict('sys_normal_disable')
+    this.sys_normal_disable = res.data
+    const res2 : any = this.DictService.getDict('sys_user_sex')
+    this.sys_user_sex = res2.data
 
   }
 
@@ -194,22 +192,18 @@ export class UserComponent implements AfterViewInit , OnInit {
     this.refreshCheckedStatus();
   }
 
-  getList(params? : NzTableQueryParams) : void {
+  async getList(params? : NzTableQueryParams)  {
 
     this.loading = true
-    this.userService.listUser({ ...this.searchParams , ...this.queryParams.value }).subscribe((res : any) => {
-      this.userList = res.rows
-      this.loading = false
-    })
+    const res:any = await this.userService.listUser({ ...this.searchParams , ...this.queryParams.value })
+    this.userList = res.rows
+    this.loading = false
   }
 
-  getTreeSelect() {
-    this.DeptService.treeSelect().subscribe((res : any) => {
-
-      //@ts-ignore
-      this.nodes = (resolveTree(res.data))
-//      console.log(this.nodes)
-    })
+  async getTreeSelect() {
+    const res:any= await this.DeptService.treeSelect()
+    //@ts-ignore
+    this.nodes = (resolveTree(res.data))
   }
 
   /**
