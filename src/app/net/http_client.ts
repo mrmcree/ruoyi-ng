@@ -1,6 +1,6 @@
 
 import { Injectable,Injector  } from '@angular/core';
-import { HttpClient,HttpParams,
+import { HttpClient,HttpParams,HttpHeaders
   } from '@angular/common/http';
 import {  Observable } from 'rxjs';
 export interface response{
@@ -10,6 +10,7 @@ export interface response{
   data:object | [],
   total:number
 }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -32,6 +33,7 @@ export class Http_client {
    * @returns {Observable<{}>}
    */
   public get(url: string,  params?: any,options?: Object,): Observable<{}> {
+
     let httpParams = new HttpParams();
     if (params) {
       for (const key in params) {

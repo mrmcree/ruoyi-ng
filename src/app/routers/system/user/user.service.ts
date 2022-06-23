@@ -1,6 +1,7 @@
 import { Http_client } from "@/app/net/http_client";
+import { HttpHeaders } from "@angular/common/http";
 import { Injectable } from '@angular/core';
-
+import { NgHttpCachingHeaders } from "@/app/net/cache.service";
 export interface User {
   userId : string,
 }
@@ -27,9 +28,11 @@ export class UserService {
   }
 
   // 查询用户列表
-  public listUser(query : any) {
+  public listUser(query : any,options?:object) {
+    let cheaders = new HttpHeaders()
+      .set(NgHttpCachingHeaders.ALLOW_CACHE,'true');
     return this.http.get(`${this.baseUrl}/list` ,
-      query
+      query,cheaders
     )
   }
 

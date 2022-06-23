@@ -202,11 +202,15 @@ export class DefaultInterceptor implements HttpInterceptor {
     }
 //    console.log(url)
 // 如果有token，就添加
+//    console.log('headers',req)
+    const headers=req.headers.append('Authorization',`Bearer ${token}`)
+//    setHeaders: {
+//      Authorization: `Bearer ${token}`
+//    }
     req = req.clone({
       url ,
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
+      headers
+
     });
 
     return next.handle(req).pipe(

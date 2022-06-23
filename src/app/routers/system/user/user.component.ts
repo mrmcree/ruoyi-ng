@@ -2,6 +2,7 @@ import { DeptService } from "@/app/routers/system/dept/dept.service";
 import { DictDataService } from "@/app/routers/system/dict/data/dict.data.service";
 import { UserDialogComponent } from "@/app/routers/system/user/user.dialog";
 import { UserService } from "@/app/routers/system/user/user.service";
+import { HttpHeaders } from "@angular/common/http";
 import { Component , OnInit , AfterViewInit , ViewChild } from '@angular/core';
 import { FormBuilder , FormGroup , Validators } from "@angular/forms";
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
@@ -194,7 +195,7 @@ export class UserComponent implements AfterViewInit , OnInit {
   }
 
   getList(params? : NzTableQueryParams) : void {
-    console.log(params)
+
     this.loading = true
     this.userService.listUser({ ...this.searchParams , ...this.queryParams.value }).subscribe((res : any) => {
       this.userList = res.rows
@@ -207,7 +208,7 @@ export class UserComponent implements AfterViewInit , OnInit {
 
       //@ts-ignore
       this.nodes = (resolveTree(res.data))
-      console.log(this.nodes)
+//      console.log(this.nodes)
     })
   }
 
