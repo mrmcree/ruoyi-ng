@@ -24,12 +24,12 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 
 
+
  const antDesignIcons = AllIcons as {
    [key: string]: IconDefinition;
  };
  const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
 registerLocaleData(zh);
-
 @NgModule({
   declarations: [
     AppComponent ,

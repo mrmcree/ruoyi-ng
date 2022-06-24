@@ -34,6 +34,7 @@ const COMPONENTS = [UserComponent];
 
 @NgModule({
   declarations: [
+
     ...COMPONENTS , RoleComponent , DataComponent , TypeComponent , ConfigComponent , MenuComponent , NoticeComponent ,
     PostComponent ,
     UserDialogComponent
@@ -58,6 +59,7 @@ const COMPONENTS = [UserComponent];
     NzDividerModule ,
     NzPopconfirmModule ,
     SharedModule ,
+
 
   ]
 })

@@ -9,22 +9,19 @@ import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
 import { resolveTree } from '@/app/core/utils'
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-
+import {Dict} from '@/app/core/interface'
 export interface Data {
   userId : number;
   userName : string;
   nickName : number;
   deptName : string;
   phonenumber : string;
+  dept:any;
   status : boolean;
   createTime : boolean;
   disabled : boolean;
 }
 
-interface dict {
-  dictValue : string,
-  dictLabel : string
-}
 
 @Component({
   selector   : 'app-user' ,
@@ -34,6 +31,7 @@ interface dict {
 export class UserComponent implements AfterViewInit , OnInit {
   @ViewChild('UserDialog')
   private  UserDialog!:UserDialogComponent
+  isCollapse=true
   /**
    * 部门搜索关键词
    * @type {string}
@@ -59,12 +57,12 @@ export class UserComponent implements AfterViewInit , OnInit {
    * @description 状态字典
    * @type {dict[]}
    */
-  sys_normal_disable : dict[] = [];
+  sys_normal_disable : Dict[] = [];
   /**
    * @description 性别字典
    * @type {Array<{value : string, text : string}>}
    */
-  sys_user_sex : dict[] = []
+  sys_user_sex : Dict[] = []
   /**
    * 部门树
    * @type {any[]}
@@ -132,7 +130,13 @@ export class UserComponent implements AfterViewInit , OnInit {
 
   ngAfterViewInit() : void {
   }
-
+  reloadTable(): void {
+    this.message.info('刷新成功')
+    this.getList();
+  }
+  toggleCollapse(){
+    this.isCollapse=!this.isCollapse
+  }
   /**
    * 部门树选择
    * @param {NzFormatEmitEvent} event

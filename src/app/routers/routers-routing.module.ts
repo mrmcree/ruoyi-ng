@@ -33,6 +33,16 @@ const routes: Routes = [
         loadChildren: () => import('./system/system.module').then(m => m.SystemModule),
         data: { preload: true ,breadcrumb:'system'}
       },
+      {
+        path: 'monitor',
+        loadChildren: () => import('./monitor/monitor.module').then(m => m.MonitorModule),
+        data: { preload: true ,breadcrumb:'monitor'}
+      },
+      {
+        path: 'tool',
+        loadChildren: () => import('./tool/tool.module').then(m => m.ToolModule),
+        data: { preload: true ,breadcrumb:'tool'}
+      },
     ],
 
   },

@@ -1,7 +1,6 @@
 <nz-layout class="layout-container">
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
     <div class="logo"></div>
-<!--     [nzIcon]="menu.meta.icon" -->
     <ul nz-menu  nzMatchRouter nzMatchRouterExact nzTheme="dark" nzMode="inline">
       <li nz-submenu  [nzTitle]="menu.meta.title"  *ngFor="let menu of routerList" >
         <ul>
@@ -9,7 +8,6 @@
             <a [routerLink]="menu.path+'/'+submenu.path">
               {{ submenu.meta.title }}
             </a>
-
           </li>
         </ul>
       </li>
@@ -26,27 +24,10 @@
     </nz-header>
     <nz-content>
       <nz-breadcrumb [nzAutoGenerate]="true">
-<!--         <nz-breadcrumb-item>User</nz-breadcrumb-item> -->
-<!--         <nz-breadcrumb-item>Bill</nz-breadcrumb-item> -->
       </nz-breadcrumb>
       <router-outlet></router-outlet>
     </nz-content>
     <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
   </nz-layout>
 </nz-layout>
-<!-- <ul> -->
-<!--   <li nz-menu-item> Tom</li> -->
-<!--   <li nz-menu-item>Bill</li> -->
-<!--   <li nz-menu-item>Alex</li> -->
-<!-- </ul> -->
-<!-- </li> -->
-<!-- <li nz-submenu nzTitle="Team" nzIcon="team"> -->
-<!--   <ul> -->
-<!--     <li nz-menu-item>Team 1</li> -->
-<!--     <li nz-menu-item>Team 2</li> -->
-<!--   </ul> -->
-<!-- </li> -->
-<!-- <li nz-menu-item> -->
-<!--   <i nz-icon nzType="file"></i> -->
-<!--   <span>File</span> -->
-<!-- </li> -->
+
