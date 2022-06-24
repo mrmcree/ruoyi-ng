@@ -37,7 +37,7 @@ export class UserService {
   }
 
   // 查询用户详细
-  public getUser(userId : string) {
+  public getUser(userId : number) {
     return this.http.get(`${this.baseUrl}/${userId}`)
   }
 

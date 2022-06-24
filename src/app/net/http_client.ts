@@ -3,13 +3,7 @@ import { Injectable,Injector  } from '@angular/core';
 import { HttpClient,HttpParams,HttpHeaders
   } from '@angular/common/http';
 import {  Observable } from 'rxjs';
-export interface response{
-  code: number,
-  msg:string,
-  rows:any[],
-  data:object | [],
-  total:number
-}
+
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +46,7 @@ export class Http_client {
    * @param {Object} options
    * @returns {Observable<{}>}
    */
-  public post(url: string, body: any = null, options?: Object): Observable<{}> {
+  public post(url: string, body: any = null, options?: Object): Promise<{}> {
     return this.http.post(url, body, { headers:options}).toPromise()
   }
 
@@ -63,7 +57,7 @@ export class Http_client {
    * @param params
    * @returns {Observable<{}>}
    */
-  public delete(url: string, params?: any,options?: Object, ): Observable<{}> {
+  public delete(url: string, params?: any,options?: Object, ): Promise<{}> {
     let httpParams = new HttpParams();
     if (params) {
       for (const key in params) {
@@ -81,7 +75,7 @@ export class Http_client {
    * @param {Object} options
    * @returns {Observable<{}>}
    */
-  public put(url: string, body: any = null, options?: Object): Observable<{}> {
+  public put(url: string, body: any = null, options?: Object): Promise<{}> {
     return this.http.put(url, body, { headers:options}).toPromise()
   }
   /**
@@ -91,7 +85,7 @@ export class Http_client {
    * @param {Object} options
    * @returns {Observable<{}>}
    */
-  public postForm(url: string, body: any = null, options?: Object): Observable<{}> {
+  public postForm(url: string, body: any = null, options?: Object): Promise<{}> {
     let httpParams = new HttpParams();
     if (body) {
       for (const key in body) {

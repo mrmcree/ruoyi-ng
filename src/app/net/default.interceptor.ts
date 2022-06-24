@@ -30,6 +30,9 @@ import { environment } from '@/environments/environment';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
+interface  HttpResponseBaseC  extends HttpResponseBase{
+  body?:any
+}
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
@@ -94,11 +97,11 @@ export class DefaultInterceptor implements HttpInterceptor {
    * @param req
    * @param next
    */
-  private handleError(ev : HttpResponseBase , req : HttpRequest<any> , next : HttpHandler) : Observable<any> {
+  private handleError(ev : HttpResponseBaseC , req : HttpRequest<any> , next : HttpHandler) : Observable<any> {
 
 
     this.checkStatus(ev)
-    //@ts-ignore
+
     if(ev.body.code===401){
 
       this.toLogin()

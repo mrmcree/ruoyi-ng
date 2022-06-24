@@ -1,7 +1,8 @@
+import { response } from "@/app/core/interface";
 import { AuthService } from "@/app/routers/auth.service";
 import { UserService } from "@/app/routers/system/user/user.service";
 import { Component , EventEmitter , OnInit , Input , Output } from '@angular/core';
-import { FormBuilder , FormGroup , Validators } from "@angular/forms";
+import { FormBuilder , FormControl , FormGroup , Validators } from "@angular/forms";
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
@@ -29,7 +30,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
             <nz-form-item>
               <nz-form-label [nzSpan]="8">归属部门</nz-form-label>
               <nz-form-control [nzSpan]="18" nzErrorTip="MaxLength is 6">
-                <input nz-input formControlName="deptId" name="deptId" maxlength="6" />
+                <input nz-input formControlName="deptId" name="deptId"  />
               </nz-form-control>
             </nz-form-item>
           </div>
@@ -48,12 +49,12 @@ import { NzMessageService } from 'ng-zorro-antd/message';
             <nz-form-item>
               <nz-form-label [nzSpan]="8">邮箱</nz-form-label>
               <nz-form-control [nzSpan]="18" nzErrorTip="MaxLength is 6">
-                <input nz-input formControlName="email" name="email" maxlength="6" />
+                <input nz-input formControlName="email" name="email"  />
               </nz-form-control>
             </nz-form-item>
           </div>
         </div>
-        <div nz-row class="w-full flex " [nzGutter]="20">
+        <div nz-row class="w-full flex " [nzGutter]="20" *ngIf="form.value.id!=null">
 
           <div nz-col [nzSpan]="12">
             <nz-form-item>
@@ -67,7 +68,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
             <nz-form-item>
               <nz-form-label nzRequired [nzSpan]="8">用户密码</nz-form-label>
               <nz-form-control [nzSpan]="18" nzErrorTip="MaxLength is 6">
-                <input nz-input formControlName="password" name="password" maxlength="6" />
+                <input nz-input formControlName="password" name="password"  />
               </nz-form-control>
             </nz-form-item>
           </div>
@@ -86,7 +87,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
             <nz-form-item>
               <nz-form-label [nzSpan]="8">状态</nz-form-label>
               <nz-form-control [nzSpan]="18" nzErrorTip="MaxLength is 6">
-                <input nz-input formControlName="status" name="status" maxlength="6" />
+                <input nz-input formControlName="status" name="status"  />
               </nz-form-control>
             </nz-form-item>
           </div>
@@ -105,7 +106,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
             <nz-form-item>
               <nz-form-label [nzSpan]="8">角色</nz-form-label>
               <nz-form-control [nzSpan]="18" nzErrorTip="MaxLength is 6">
-                <input nz-input formControlName="roleIds" name="roleIds" maxlength="6" />
+                <input nz-input formControlName="roleIds" name="roleIds"  />
               </nz-form-control>
             </nz-form-item>
           </div>
@@ -141,13 +142,13 @@ export class UserDialogComponent implements OnInit {
 
   ngOnInit() : void {
     this.form = this.fb.group({
+      userId         : [] ,
       nickName   : [null , Validators.required] ,
       deptId     : [null] ,
       phonenumber: [null] ,
       email      : [null , null] ,
       userName   : [null , Validators.required] ,
       password   : [null , Validators.required] ,
-      userId     : [] ,
       sex        : [] ,
       status     : [] ,
       postIds    : [] ,
@@ -164,22 +165,36 @@ export class UserDialogComponent implements OnInit {
   handleAdd() {
     this.ModelTitle = '添加用户'
     this.isVisible = true;
+    this.form.reset()
   }
 
-  handleEdit() {
+  async handleEdit(userId : number) {
     this.ModelTitle = '编辑用户'
     this.isVisible = true;
+    this.form.reset()
+
+    const res : any = await this.UserService.getUser(userId)
+    this.form.patchValue(res.data)
+//    this.form.setControl('password' , new FormControl(null))
   }
 
-  handleOk() : void {
-    this.isOkLoading = true;
+  async handleOk() {
+
     if ( this.form.valid ) {
-      this.UserService.addUser(this.form.value).subscribe((res : any) => {
-        this.isOkLoading = false;
+      this.isOkLoading = true;
+
+      if(this.form.value.userId==null){
+        await this.UserService.addUser(this.form.value).finally(() => this.isOkLoading = false)
         this.message.success('添加成功')
-        this.SaveSuccess.emit(true)
-        this.handleCancel()
-      })
+      }else {
+        await this.UserService.updateUser(this.form.value).finally(() => this.isOkLoading = false)
+        this.message.success('更新成功')
+      }
+
+
+      this.SaveSuccess.emit(true)
+      this.handleCancel()
+
 
     }
     else {
@@ -188,7 +203,7 @@ export class UserDialogComponent implements OnInit {
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
         }
-      });
+      })
     }
 
   }

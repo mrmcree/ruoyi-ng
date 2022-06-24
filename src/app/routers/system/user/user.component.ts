@@ -199,9 +199,8 @@ export class UserComponent implements AfterViewInit , OnInit {
   async getList(params? : NzTableQueryParams)  {
 
     this.loading = true
-    const res:any = await this.userService.listUser({ ...this.searchParams , ...this.queryParams.value })
+    const res:any = await this.userService.listUser({ ...this.searchParams , ...this.queryParams.value }).finally(()=>this.loading=false)
     this.userList = res.rows
-    this.loading = false
   }
 
   async getTreeSelect() {
@@ -238,12 +237,11 @@ export class UserComponent implements AfterViewInit , OnInit {
    * @description 删除
    * @param data
    */
-  handleDelete(data ?: any) {
+  async handleDelete(data ? : any) {
 //    console.log(data)
-    this.userService.delUser(data.id).subscribe((res => {
-      this.message.success('删除成功')
-      this.getList()
-    }))
+    await this.userService.delUser(data.id)
+    this.message.success('删除成功')
+    this.getList()
   }
 
   /**
@@ -267,7 +265,7 @@ export class UserComponent implements AfterViewInit , OnInit {
   /**
    * @description 编辑
    */
-  handleEdit(){
-    this.detailDialogVisible = true
+  handleEdit(userId : number){
+    this.UserDialog.handleEdit(userId)
   }
 }
