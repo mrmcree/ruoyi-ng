@@ -82,31 +82,7 @@ export class UserComponent implements AfterViewInit , OnInit {
     deptId   : 0
   }
 
-  /* 多选方法 */
-  listOfSelection = [
-    {
-      text    : '全选' ,
-      onSelect: () => {
-        this.onAllChecked(true);
-      }
-    } ,
-    {
-      text    : '选中偶数行' ,
-      onSelect: () => {
-        this.listOfCurrentPageData.forEach((data , index) => this.updateCheckedSet(data.userId , index % 2 !== 0));
-        this.refreshCheckedStatus();
-      }
-    } ,
-    {
-      text    : '选中奇数行' ,
-      onSelect: () => {
-        this.listOfCurrentPageData.forEach((data , index) => this.updateCheckedSet(data.userId , index % 2 === 0));
-        this.refreshCheckedStatus();
-      }
-    }
 
-
-  ];
   /**
    * @description 弹框显示
    * @type {boolean}

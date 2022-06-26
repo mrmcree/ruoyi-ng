@@ -98,15 +98,15 @@
             新增
           </button>
 
-          <button nz-button nzDanger (click)="handleDelete()">
+          <button nz-button nzDanger (click)="handleDelete()" >
             <i nz-icon nzType="delete" nzTheme="outline"></i>
             删除
           </button>
-          <button nz-button (click)="handleImport">
+          <button nz-button (click)="handleImport()">
             <i nz-icon nzType="arrow-down" nzTheme="outline"></i>
             导入
           </button>
-          <button nz-button (click)="handleExport">
+          <button nz-button (click)="handleExport()">
             <i nz-icon nzType="arrow-up" nzTheme="outline"></i>
             导出
           </button>
@@ -127,7 +127,7 @@
 
           <tr>
             <th
-              [nzSelections]="listOfSelection"
+
               [(nzChecked)]="checked"
               [nzIndeterminate]="indeterminate"
               (nzCheckedChange)="onAllChecked($event)"
