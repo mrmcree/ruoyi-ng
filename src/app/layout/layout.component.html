@@ -23,6 +23,9 @@
       ></i>
     </nz-header>
     <nz-content>
+      <nz-tabset [(nzSelectedIndex)]="index" nzType="editable-card" nzHideAdd (nzClose)="closeTab($event)">
+        <nz-tab *ngFor="let tab of tabs; let i = index" [nzClosable]="i > 1" [nzTitle]="tab">Content of {{ tab }}</nz-tab>
+      </nz-tabset>
       <nz-breadcrumb [nzAutoGenerate]="true">
       </nz-breadcrumb>
       <router-outlet></router-outlet>

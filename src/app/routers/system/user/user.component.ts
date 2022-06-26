@@ -97,6 +97,7 @@ export class UserComponent implements AfterViewInit , OnInit {
       dateRange  : [null , null] ,
     });
     await this.getTreeSelect()
+
     const res : any = await this.DictService.getDict('sys_normal_disable')
     this.sys_normal_disable = res.data
     const res2 : any = this.DictService.getDict('sys_user_sex')

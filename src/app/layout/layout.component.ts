@@ -10,7 +10,17 @@ import { Router } from "@angular/router";
 export class LayoutComponent implements OnInit {
   isCollapsed = false
   routerList : any | undefined
+  index = 0;
+  tabs = ['Tab 1', 'Tab 2'];
 
+  closeTab({ index }: { index: number }): void {
+    this.tabs.splice(index, 1);
+  }
+
+  newTab(): void {
+    this.tabs.push('New Tab');
+    this.index = this.tabs.length - 1;
+  }
   constructor(private CommonService : CommonService,private router:Router) {
   }
 

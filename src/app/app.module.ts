@@ -21,8 +21,9 @@ import { IconDefinition } from '@ant-design/icons-angular';
  import * as AllIcons from '@ant-design/icons-angular/icons';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import {RouteReuseStrategy} from '@angular/router'
 
-
+import {SimpleReuseStrategy} from '@/app/layout/reuseStrategy'
 
 
  const antDesignIcons = AllIcons as {
@@ -52,7 +53,8 @@ registerLocaleData(zh);
     {provide: HTTP_INTERCEPTORS,useClass: DefaultInterceptor, multi: true }
     ,
     { provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
+    { provide: RouteReuseStrategy, useClass: SimpleReuseStrategy }
 
   ],
   bootstrap: [AppComponent]
