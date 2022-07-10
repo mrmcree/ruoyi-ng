@@ -21,3 +21,13 @@ export function resolveTree(tree:any[]):any[]{
   return arr
 
 }
+
+/**
+ * @description 首字符大写
+ * @param {string} str
+ * @returns {string}
+ * @constructor
+ */
+export function UpperCase(str:string):string {
+  return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase())
+}

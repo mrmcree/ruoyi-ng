@@ -14,20 +14,28 @@
     </ul>
   </nz-sider>
   <nz-layout>
+
     <nz-header>
-      <i
-        class="trigger"
-        nz-icon
-        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-        (click)="isCollapsed = !isCollapsed"
-      ></i>
+      <div class="flex">
+        <i
+          class="trigger"
+          nz-icon
+          [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          (click)="isCollapsed = !isCollapsed"
+        ></i>
+        <nz-breadcrumb [nzAutoGenerate]="true">
+        </nz-breadcrumb>
+      </div>
     </nz-header>
     <nz-content>
-      <nz-tabset [(nzSelectedIndex)]="index" nzType="editable-card" nzHideAdd (nzClose)="closeTab($event)">
-        <nz-tab *ngFor="let tab of tabs; let i = index" [nzClosable]="i > 1" [nzTitle]="tab">Content of {{ tab }}</nz-tab>
+      <nz-tabset [(nzSelectedIndex)]="index" nzType="editable-card" nzHideAdd (nzClose)="closeTab($event)" >
+        <nz-tab *ngFor="let tab of tabs; let i = index" [nzClosable]="i > 1" >
+          <span *nzTabLink nz-tab-link [routerLink]="[tab.url]"  >
+            {{ tab?.title || '' }}
+          </span>
+        </nz-tab>
       </nz-tabset>
-      <nz-breadcrumb [nzAutoGenerate]="true">
-      </nz-breadcrumb>
+
       <router-outlet></router-outlet>
     </nz-content>
     <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>

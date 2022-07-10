@@ -10,8 +10,8 @@ import { UserComponent } from './user/user.component'
 
 const routes: Routes = [
   { path: '', pathMatch: 'full',redirectTo:'user' ,},
-  { path: 'user', component: UserComponent ,data:{breadcrumb:'user'}},
-  { path: 'role', component: RoleComponent ,data:{breadcrumb:'role'}},
+  { path: 'user', component: UserComponent ,data:{breadcrumb:'user',keep:true}},
+  { path: 'role', component: RoleComponent ,data:{breadcrumb:'role',keep:true}},
   { path: 'config', component: ConfigComponent ,data:{breadcrumb:'config'}},
   { path: 'dict/data', component:DataComponent ,data:{breadcrumb:'data'}},
   { path: 'dict/type', component:TypeComponent ,data:{breadcrumb:'type'}},
