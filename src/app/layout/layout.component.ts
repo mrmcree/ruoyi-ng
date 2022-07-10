@@ -31,11 +31,8 @@ export class LayoutComponent implements OnInit {
   }
   constructor(private CommonService : CommonService,private router:Router) {
     this.router.events.pipe(filter(event=>event instanceof NavigationEnd)).subscribe((router:any)=>{
-      console.log(router)
       const baseUrl=router.url.split('/')[1]
       const title=router.url.split('/')[2]
-      console.log(baseUrl,title)
-
       const index=this.tabs.findIndex(item=>item.url===router.url)
       if(index!==-1){
         return
