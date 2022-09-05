@@ -22,7 +22,7 @@ export class BaseService {
     )
   }
   // 删除
-  public del(ids : string) {
+  public delete(ids : string) {
     return this.http.delete(`${this.baseUrl}/${ids}`)
   }
 
@@ -33,7 +33,7 @@ export class BaseService {
     )
   }
   // 查询列表
-  public list(query : any,options?:object) {
+  public getList(query : any,options?:object) {
     return this.http.get(`${this.baseUrl}/list` ,
       query,
     )

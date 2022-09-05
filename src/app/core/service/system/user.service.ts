@@ -33,10 +33,10 @@ export class UserService extends BaseService{
 
   // 查询用户列表
   public listUser(query : any,options?:object) {
-    let cheaders = new HttpHeaders()
-      .set(NgHttpCachingHeaders.ALLOW_CACHE,'true');
+//    let cheaders = new HttpHeaders()
+//      .set(NgHttpCachingHeaders.ALLOW_CACHE,'true');
     return this.http.get(`${this.baseUrl}/list` ,
-      query,cheaders
+      query
     )
   }
 
